@@ -1,5 +1,5 @@
-ghost.s9pk
-image.tar
-scripts/embassy.js
+*.s9pk
+scripts/*.js
 .DS_Store
-.vscode
+.vscode/
+docker-images

@@ -8,4 +8,4 @@
 
 #  🎮-😃-🕹️
 
-Enjoy your first game service for embassyOS!
+Enjoy your first game service for StartOS!
