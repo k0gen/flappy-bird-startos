@@ -48,6 +48,7 @@ interfaces:
     ui: true
     protocols:
       - http
+      - tcp
 backup:
   create:
     type: docker
