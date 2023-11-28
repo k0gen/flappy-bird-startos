@@ -21,14 +21,10 @@ jobs:
           git submodule update --init --recursive
           start-sdk init
           make
-          PACKAGE_ID=$(yq e ".id" manifest.yaml)
-          echo $PACKAGE_ID
-          echo ${PACKAGE_ID}
+          echo "PACKAGE_ID=$(yq e '.id' manifest.yaml)" >> $GITHUB_OUTPUT
+          echo "PACKAGE_TITLE=$(yq e '.title' manifest.yaml)" >> $GITHUB_OUTPUT
           mv ${PACKAGE_ID}*s9pk ~/
         shell: bash
-        id: build
-        env:
-          PACKAGE_TITLE: $(yq e ".title" manifest.yaml)
 
       - name: Generate sha256 checksum
         run: |
