@@ -21,18 +21,25 @@ jobs:
           git submodule update --init --recursive
           start-sdk init
           make
-          export PACKAGE_ID=$(yq e ".id" manifest.yaml)
-          export PACKAGE_TITLE=$(yq e ".title" manifest.yaml)
+          PACKAGE_ID=$(yq e ".id" manifest.yaml)
+          PACKAGE_TITLE=$(yq e ".title" manifest.yaml)
           mv ${PACKAGE_ID}*s9pk ~/
+          echo "PACKAGE_ID: ${PACKAGE_ID}"
+          echo "PACKAGE_TITLE: ${PACKAGE_TITLE}"
+
         shell: bash
 
       - name: Generate sha256 checksum
         run: |
+          echo "PACKAGE_ID: ${PACKAGE_ID}"
+          echo "PACKAGE_TITLE: ${PACKAGE_TITLE}"
           sha256sum ${PACKAGE_ID}.s9pk > ${PACKAGE_ID}.s9pk.sha256
         shell: bash
 
       - name: Generate changelog
         run: |
+          echo "PACKAGE_ID: ${PACKAGE_ID}"
+          echo "PACKAGE_TITLE: ${PACKAGE_TITLE}"
           echo "## What's Changed" > change-log.txt
           yq e '.release-notes' manifest.yaml >> change-log.txt
           echo "## SHA256 Hash" >> change-log.txt
