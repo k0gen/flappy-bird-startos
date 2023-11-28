@@ -18,15 +18,12 @@ jobs:
 
       - name: Build the service package
         run: |
+          echo "PACKAGE_ID=$(yq e '.id' manifest.yaml)" >> $GITHUB_ENV
+          echo "PACKAGE_TITLE=$(yq e '.title' manifest.yaml)" >> $GITHUB_ENV
           git submodule update --init --recursive
           start-sdk init
           make
-          PACKAGE_ID=$(yq e ".id" manifest.yaml)
-          PACKAGE_TITLE=$(yq e ".title" manifest.yaml)
           mv ${PACKAGE_ID}*s9pk ~/
-          echo "PACKAGE_ID: ${PACKAGE_ID}"
-          echo "PACKAGE_TITLE: ${PACKAGE_TITLE}"
-
         shell: bash
 
       - name: Generate sha256 checksum
