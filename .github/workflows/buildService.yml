@@ -24,6 +24,10 @@ jobs:
           sudo snap install deno
       - name: Set up StartOS SDK
         uses: k0gen/sdk@v1
+      - name: Debugging Output
+        run: |
+          echo "PATH=$PATH"
+          ls -l /usr/local/cargo/bin/
       - name: Build the service package
         run: |
           git submodule update --init --recursive
