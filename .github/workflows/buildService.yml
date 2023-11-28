@@ -13,27 +13,19 @@ jobs:
   BuildPackage:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
       - name: Checkout services repository
         uses: actions/checkout@v3
-      - name: Install Dependencies
-        run: |
-          sudo snap install deno
-      - name: Set up StartOS SDK
+
+      - name: Use StartOS SDK
         uses: k0gen/sdk@v1
-      - name: Debugging Output
-        run: |
-          echo "PATH=$PATH"
-          ls -l /usr/local/cargo/bin/
+
       - name: Build the service package
         run: |
           git submodule update --init --recursive
           start-sdk init
           make
           mv flappy-bird*s9pk ~/
+
       - name: Upload .s9pk
         uses: actions/upload-artifact@v3
         with:
