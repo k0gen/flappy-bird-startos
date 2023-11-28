@@ -48,5 +48,5 @@ jobs:
           name: ${{ env.PACKAGE_TITLE }} ${{ github.ref_name }}
           body_path: change-log.txt
           files: |
-            ${PACKAGE_ID}.s9pk
-            ${PACKAGE_ID}.s9pk.sha256
+            ~/$*.s9pk
+            ~/$*.s9pk.sha256
