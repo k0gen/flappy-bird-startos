@@ -28,11 +28,13 @@ jobs:
 
       - name: Generate sha256 checksum
         run: |
+          PACKAGE_ID=$(yq e '.id' manifest.yaml)
           sha256sum ${PACKAGE_ID}.s9pk > ${PACKAGE_ID}.s9pk.sha256
         shell: bash
 
       - name: Generate changelog
         run: |
+          PACKAGE_ID=$(yq e '.id' manifest.yaml)
           echo "## What's Changed" > change-log.txt
           yq e '.release-notes' manifest.yaml >> change-log.txt
           echo "## SHA256 Hash" >> change-log.txt
