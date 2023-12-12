@@ -26,7 +26,6 @@ jobs:
           start-sdk init
           make
           PACKAGE_ID=$(yq -oy ".id" manifest.*)
-          mv ${PACKAGE_ID}*.s9pk ~/
           echo "::set-output name=package_id::$PACKAGE_ID"
         shell: bash
 
@@ -34,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.build.outputs.package_id }}.s9pk
-          path: ~/*.s9pk
+          path: ./${{ steps.build.outputs.package_id }}.s9pk
