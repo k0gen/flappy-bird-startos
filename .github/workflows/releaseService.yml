@@ -1,7 +1,9 @@
 name: Release Service
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*'
 
 jobs:
   ReleasePackage:
@@ -17,11 +19,14 @@ jobs:
           echo "::set-output name=package_title::$(yq -oy ".title" manifest.*)"
         shell: bash
 
-      - name: Download .s9pk artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ steps.package.outputs.package_id }}.s9pk
-          path: .
+      - name: Prepare StartOS SDK
+        uses: Start9Labs/sdk@v1
+
+      - name: Build the service package
+        run: |
+          git submodule update --init --recursive
+          start-sdk init
+          make
 
       - name: Generate sha256 checksum
         run: |
@@ -49,3 +54,10 @@ jobs:
           files: |
             ./${{ steps.package.outputs.package_id }}.s9pk
             ./${{ steps.package.outputs.package_id }}.s9pk.sha256
+
+      - name: Publish to Registry
+        env:
+          S9USER: ${{ secrets.S9USER }}
+          S9PASS: ${{ secrets.S9PASS }}
+          S9REGISTRY: ${{ secrets.S9REGISTRY }}
+        run: start-sdk publish https://$S9USER:$S9PASS@$S9REGISTRY ${{ steps.package.outputs.package_id }}.s9pk
