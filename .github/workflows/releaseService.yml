@@ -13,10 +13,11 @@ jobs:
       - name: Checkout services repository
         uses: actions/checkout@v3
 
-      - name: Set PACKAGE_ID
+      - name: Set PACKAGE_ID and PACKAGE_TITLE
         id: package
         run: |
           echo "::set-output name=package_id::$(yq -oy ".id" manifest.*)"
+          echo "::set-output name=package_title::$(yq -oy ".title" manifest.*)"
         shell: bash
 
       - name: Download .s9pk artifact
@@ -46,7 +47,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: ${{ steps.build.outputs.package_title }} ${{ github.ref_name }}
+          name: ${{ steps.package.outputs.package_title }} ${{ github.ref_name }}
           body_path: change-log.txt
           files: |
             ./${{ steps.package.outputs.package_id }}.s9pk
