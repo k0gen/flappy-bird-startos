@@ -2,9 +2,6 @@ name: Release Service
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*.*'
 
 jobs:
   ReleasePackage:
