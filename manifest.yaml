@@ -26,7 +26,7 @@ main:
 health-checks:
   web-ui:
     name: Game Interface
-    success-message: All 🟢
+    success-message: 🟢
     type: script
 config: ~
 properties: ~
